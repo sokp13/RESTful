@@ -1,0 +1,119 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Access API",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "description": "Returns message showing app is up",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            }
+          }
+        }
+      },
+      "/access": {
+        "post": {
+          "description": "Grants access to an user",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "access data",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/AccessData"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User granted access"
+            },
+            "400": {
+              "description": "Invalid request data"
+            }
+          }
+        }
+      },
+      "/access/{name}/{server}": {
+        "put": {
+          "description": "Update access by name and server",
+          "parameters": [
+            {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "server", 
+            "in": "path",
+            "description": "Name of the server",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/definitions/AccessData"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful model update",
+          },
+          "400": {
+            "description": "Invalid request data",
+          }, 
+          }
+        }
+      },
+      "/delete/{name}/{server}": {
+        "delete": {
+        "summary": "Revoke access",
+        "description": "Delete access by name and server",
+        "parameters": [
+        { }
+        ],
+    
+      "responses": {
+        "200": {
+          "description": "Access revoked"
+        },
+        "404": {
+          "description": "Access not found"
+        }
+      }
+    }
+    }    
+    },
+    "definitions": {
+      "AccessData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "server": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
