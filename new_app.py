@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify, request
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
