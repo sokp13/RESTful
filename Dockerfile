@@ -6,8 +6,8 @@ COPY . /app
 
 # RUN pip3 install flask flask_swagger_ui flask-restplus
 
-RUN pip3 install flask flask-restful flask-swagger
+RUN pip3 install flask flask-restful flask-swagger_ui
 
-EXPOSE 5001
+EXPOSE 8080
 
-CMD ["python3", "api.py"]
+CMD ["python3", "new_app.py"]
