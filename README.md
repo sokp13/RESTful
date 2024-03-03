@@ -14,14 +14,14 @@ This will build the image with the name "myapi".
 To run the Docker container, run:
 
 ```
-    docker run -p 4000:5001 myapi
+    docker run -p 80:8080 myapi
 ```
 
-This maps port 4000 on your local machine to port 5001 inside the container.
+This maps port 80:8080 (local host) inside the container.
 
-Now you can access the API at: http://localhost:4000
+Now you can access the API at: http://localhost/
 
-And access the Swagger UI at: http://localhost:4000/swagger
+And access the Swagger UI at: http://localhost/swagger
 
 ### API Reference
 The Swagger UI contains full reference documentation for the API.
