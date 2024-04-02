@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: restapp
+  template:
+    metadata:
+      labels:
+        app: restapp
+    spec:
+      containers:
+      - name: restapp
+        image: sokp/restapp:new
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: app-config
