@@ -25,7 +25,7 @@ jobs:
       - name: Push Docker image
         run: docker tag myapi ${{ secrets.DOCKER_USERNAME }}/myapi && docker push ${{ secrets.DOCKER_USERNAME }}/myapi
 
-  test:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
 
@@ -33,14 +33,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Docker container
-        run: docker run -d --name myapi-container -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/myapi
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
 
-      - name: Wait for container to start
-        run: sleep 5
+      - name: Apply Kubernetes deployment manifest
+        run: kubectl apply -f deployment.yaml --validate=false
+
+      - name: Apply Kubernetes service manifest
+        run: kubectl apply -f service.yaml --validate=false
+
+      - name: Apply Kubernetes configmap manifest
+        run: kubectl apply -f configmap.yaml --validate=false
+
+  test:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Wait for deployment to stabilize
+        run: sleep 30
 
       - name: Test /config endpoint
-        run: curl http://localhost:8080/config
+        run: curl http://localhost:31234/config
 
       - name: Test /fib endpoint
-        run: curl http://localhost:8080/fib?length=10
+        run: curl http://localhost:31234/fib?length=10
