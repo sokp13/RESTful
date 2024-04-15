@@ -1,4 +1,7 @@
 # Flask API
+
+*NOTE: The GitHub Action hits a snag at the deployment portion, due to the inability to execute the Kubernetes yaml application, attempting to pull kubectl config from localhost:8080, yet failing...the build portion executes no problem, however.
+
 ## This is a sample Flask REST API with Swagger docs.
 
 ### Building the Docker image
@@ -60,5 +63,3 @@ Additionally, in a terminal window, you can curl results from the Fibonacci endp
 ```
     curl localhost:31234/fib?length={insert number here}
 ```
-
-Difficulties were persistent in deploying the Swagger-UI correctly with the RESTful endpoints. The usage of Claude.ai, and a Medium article (https://diptochakrabarty.medium.com/flask-python-swagger-for-rest-apis-6efdf0100bd7) provided a useful blueprint on how to establish GET and POST to add onto for DELETE and PUT methods.
