@@ -46,3 +46,8 @@ jobs:
 
       - name: Apply Kubernetes configmap manifest
         run: kubectl apply -f configmap.yaml
+
+      - name: Test Fibonacci endpoint
+        run: |
+          RESPONSE=$(curl -s http://localhost:31234/fib?length=10)
+          echo "Fibonacci sequence: $RESPONSE
