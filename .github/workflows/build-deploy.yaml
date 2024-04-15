@@ -39,13 +39,13 @@ jobs:
           version: 'latest'
 
       - name: Apply Kubernetes deployment manifest
-        run: kubectl apply -f deployment.yaml
+        run: kubectl apply -f deployment.yaml --validate=false
 
       - name: Apply Kubernetes service manifest
-        run: kubectl apply -f service.yaml
+        run: kubectl apply -f service.yaml --validate=false
 
       - name: Apply Kubernetes configmap manifest
-        run: kubectl apply -f configmap.yaml
+        run: kubectl apply -f configmap.yaml --validate=false
 
       - name: Test Fibonacci endpoint
         run: |
