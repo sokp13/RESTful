@@ -1,0 +1,48 @@
+name: Microservice CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t myapi .
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image
+        run: docker tag myapi ${{ secrets.DOCKER_USERNAME }}/myapi && docker push ${{ secrets.DOCKER_USERNAME }}/myapi
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Apply Kubernetes deployment manifest
+        run: kubectl apply -f deployment.yaml
+
+      - name: Apply Kubernetes service manifest
+        run: kubectl apply -f service.yaml
+
+      - name: Apply Kubernetes configmap manifest
+        run: kubectl apply -f configmap.yaml
